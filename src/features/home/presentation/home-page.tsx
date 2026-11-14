@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Separator } from "@/core/components/ui/separator"
 import type { TrackFilter } from "../domain/competition"
 import type { Track } from "../domain/track"
 import { CompetitionsSection } from "./components/competitions/competitions-section"
@@ -8,7 +7,6 @@ import { TracksSection } from "./components/tracks/tracks-section"
 import { HeroSection } from "./components/hero/hero-section"
 
 export function HomePage() {
-  // Lifted here because the Tracks section drives the Competitions filter.
   const [selectedTrack, setSelectedTrack] = useState<TrackFilter>("All")
 
   function handleSelectTrack(track: Track) {
@@ -19,15 +17,23 @@ export function HomePage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-6">
-      <HeroSection />
-      <TracksSection onSelectTrack={handleSelectTrack} />
-      <CompetitionsSection
-        selectedTrack={selectedTrack}
-        onTrackChange={setSelectedTrack}
-      />
-      <Separator />
-      <InternshipsSection />
+    <main id="top" className="w-full">
+      {/* Stage A: Brand Dark (#202020) Hero & Disciplines */}
+      <div className="mx-auto w-full max-w-[calc(var(--hw-teams-col)+2*var(--hw-teams-pad-x))] px-[var(--hw-teams-pad-x)]">
+        <HeroSection />
+        <TracksSection onSelectTrack={handleSelectTrack} />
+      </div>
+
+      {/* Stage B: High-Craft Editorial Stage (Paper / Retunable to Dark) */}
+      <div className="hw-stage-panel relative w-full border-t border-[var(--hermes-stroke)]">
+        <div className="mx-auto w-full max-w-[calc(var(--hw-teams-col)+2*var(--hw-teams-pad-x))] px-[var(--hw-teams-pad-x)]">
+          <CompetitionsSection
+            selectedTrack={selectedTrack}
+            onTrackChange={setSelectedTrack}
+          />
+          <InternshipsSection />
+        </div>
+      </div>
     </main>
   )
 }

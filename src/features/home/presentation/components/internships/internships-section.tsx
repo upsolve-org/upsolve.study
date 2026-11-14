@@ -1,59 +1,76 @@
-import { Badge } from "@/core/components/ui/badge"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/core/components/ui/table"
 import { INTERNSHIPS } from "../../../data/internships"
 
 export function InternshipsSection() {
   return (
-    <section id="internships" className="scroll-mt-20 py-16 sm:py-20">
-      <div className="flex flex-col gap-1 pb-6 sm:flex-row sm:items-baseline sm:justify-between">
-        <h2 className="text-xl font-semibold tracking-[-0.02em]">
-          Member internships
-        </h2>
-        <span className="text-xs text-muted-foreground">
-          Where UPsolve members have worked
+    <section
+      id="internships"
+      aria-label="Member Internships"
+      className="scroll-mt-20 pb-20 md:pb-28"
+    >
+      {/* Hermes Editorial Section Heading */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-8 border-b hw-dotted-rule">
+        <div className="flex flex-col gap-2">
+          <p className="hw-mono text-xs text-[var(--brand-red)] m-0">
+            // INDUSTRY PLACEMENTS
+          </p>
+          <h2 className="hw-gothic text-[length:var(--hw-teams-display)] font-normal leading-[0.95] text-[var(--surface-panel-ink)] m-0">
+            Member Internships
+          </h2>
+        </div>
+        <span className="hw-mono text-xs text-[var(--surface-panel-muted)]">
+          [WHERE UPSOLVE BUILDERS SHIP IN PRODUCTION]
         </span>
       </div>
 
-      <div className="rounded-lg border bg-card">
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead>Member</TableHead>
-              <TableHead>Company</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead className="hidden md:table-cell">Track</TableHead>
-              <TableHead className="hidden sm:table-cell">Location</TableHead>
-              <TableHead className="text-right">Term</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+      {/* Hermes Canonical Dotted Data Table */}
+      <div className="w-full overflow-x-auto">
+        <table className="w-full border-collapse text-left font-mono text-xs">
+          <thead>
+            <tr className="border-b hw-dotted-rule text-[11px] uppercase tracking-[0.1em] text-[var(--surface-panel-muted)]">
+              <th className="py-4 pr-4 font-medium">Member</th>
+              <th className="py-4 px-4 font-medium">Company</th>
+              <th className="py-4 px-4 font-medium">Role</th>
+              <th className="py-4 px-4 font-medium hidden md:table-cell">
+                Track
+              </th>
+              <th className="py-4 px-4 font-medium hidden sm:table-cell">
+                Location
+              </th>
+              <th className="py-4 pl-4 font-medium text-right">Term</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y hw-dotted-rule border-b hw-dotted-rule">
             {INTERNSHIPS.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.member}</TableCell>
-                <TableCell className="font-medium">{item.company}</TableCell>
-                <TableCell className="text-muted-foreground">
+              <tr
+                key={item.id}
+                className="group transition-colors duration-150 hover:duration-0 hover:bg-[var(--surface-panel-well)]"
+              >
+                <td className="py-4 pr-4 font-medium text-[var(--surface-panel-ink)] whitespace-nowrap">
+                  {item.member}
+                </td>
+                <td className="py-4 px-4 font-semibold text-[var(--surface-panel-ink)] whitespace-nowrap">
+                  <span className="inline-flex items-center px-1.5 py-0.5 -ml-1.5 transition-colors duration-150 group-hover:duration-0 group-hover:bg-[var(--surface-panel-ink)] group-hover:text-[var(--surface-panel-bg)]">
+                    {item.company}
+                  </span>
+                </td>
+                <td className="py-4 px-4 text-[var(--surface-panel-muted)]">
                   {item.role}
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  <Badge variant="secondary">{item.track}</Badge>
-                </TableCell>
-                <TableCell className="hidden sm:table-cell text-muted-foreground">
+                </td>
+                <td className="py-4 px-4 hidden md:table-cell">
+                  <span className="hw-mono text-[11px] px-2 py-0.5 border border-[var(--surface-panel-solid-line)] bg-[var(--surface-panel-card)] text-[var(--surface-panel-ink)]">
+                    :{item.track === "Competitive Programming" ? "CP" : item.track}:
+                  </span>
+                </td>
+                <td className="py-4 px-4 hidden sm:table-cell text-[var(--surface-panel-muted)] whitespace-nowrap">
                   {item.location}
-                </TableCell>
-                <TableCell className="text-right tabular-nums text-muted-foreground">
+                </td>
+                <td className="py-4 pl-4 text-right tabular-nums text-[var(--surface-panel-muted)] whitespace-nowrap">
                   {item.term}
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </div>
     </section>
   )

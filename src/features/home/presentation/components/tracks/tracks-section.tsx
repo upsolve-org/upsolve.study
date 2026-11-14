@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react"
 import { TRACK_ICONS } from "./track-icons"
 import { TRACKS } from "../../../data/tracks"
 import type { Track } from "../../../domain/track"
@@ -8,49 +9,89 @@ interface TracksSectionProps {
 
 export function TracksSection({ onSelectTrack }: TracksSectionProps) {
   return (
-    <section id="tracks" className="scroll-mt-20 pb-16 sm:pb-20">
-      <div className="flex items-baseline justify-between gap-4 pb-5">
-        <h2 className="text-xl font-semibold tracking-[-0.02em]">
-          What we do
-        </h2>
-        <span className="text-xs text-muted-foreground">
-          Select a track to filter wins
-        </span>
+    <section
+      id="tracks"
+      aria-label="Disciplines and Tracks"
+      className="scroll-mt-20 py-14 md:py-20 border-t border-dotted border-[var(--hermes-stroke)]"
+    >
+      {/* Hermes section header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-10">
+        <div className="flex flex-col gap-2">
+          <p className="hw-mono text-xs text-[var(--brand-green-bright)] m-0">
+            // CORE DISCIPLINES
+          </p>
+          <h2 className="hw-gothic text-[length:var(--hw-teams-display)] font-normal leading-[0.95] text-[var(--hermes-white)] m-0">
+            Four Arenas. One Standard.
+          </h2>
+        </div>
+        <p className="hw-mono text-[11px] text-[var(--hermes-white)]/60 m-0">
+          [SELECT ANY TRACK TO FILTER 1ST SEM DISPATCHES]
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 divide-y border-y sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+      {/* Hermes 4-card architectural platform grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {TRACKS.map((track, idx) => {
           const Icon = TRACK_ICONS[track.id]
-          const dotClass =
-            track.accent === "green" ? "bg-brand-green" : "bg-brand-red"
+          const isGreen = track.accent === "green"
+          const accentColor = isGreen
+            ? "var(--brand-green-bright)"
+            : "var(--brand-red-bright)"
+
           return (
-            <button
+            <article
               key={track.id}
-              type="button"
-              onClick={() => onSelectTrack(track.id)}
-              className={`group flex flex-col justify-between gap-4 p-5 text-left transition-colors duration-150 hover:bg-card focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-ring ${
-                idx < 2 ? "sm:border-b lg:border-b-0" : ""
-              }`}
+              className="group relative isolation-auto bg-[var(--hermes-dark-well)] border border-[var(--hermes-stroke)] p-6 flex flex-col justify-between gap-8 overflow-clip transition-colors duration-150 hover:border-[var(--hermes-white)]/45"
             >
-              <div className="flex flex-col gap-3">
+              {/* Subtle corner glow */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-16 -right-16 size-44 rounded-full opacity-20 transition-opacity duration-200 group-hover:opacity-45"
+                style={{
+                  background: `radial-gradient(circle, ${accentColor}, transparent 70%)`,
+                }}
+              />
+
+              <div className="flex flex-col gap-5 relative z-10">
                 <div className="flex items-center justify-between">
-                  <Icon className="size-4 text-foreground" />
                   <span
-                    aria-hidden="true"
-                    className={`size-2 rounded-full ${dotClass}`}
-                  />
+                    className="hw-mono text-xs"
+                    style={{ color: accentColor }}
+                  >
+                    #{idx + 1} // {track.accent === "green" ? "BUILD & CODE" : "PITCH & BREAK"}
+                  </span>
+                  <Icon className="size-4 text-[var(--hermes-white)]/80" />
                 </div>
-                <h3 className="text-sm font-semibold tracking-tight">
+
+                <h3 className="hw-gothic text-[length:var(--hw-teams-feature-title)] font-normal leading-[1.02] text-[var(--hermes-white)] m-0">
                   {track.id}
                 </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+
+                <p className="text-sm leading-relaxed text-[var(--hermes-white)]/75 m-0">
                   {track.summary}
                 </p>
               </div>
-              <p className="text-xs text-muted-foreground/85">
-                {track.focus}
-              </p>
-            </button>
+
+              <div className="flex flex-col gap-4 relative z-10 pt-4 border-t border-dotted border-[var(--hermes-stroke)]">
+                <p className="hw-mono text-[11px] leading-relaxed text-[var(--hermes-white)]/55 m-0">
+                  {track.focus}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => onSelectTrack(track.id)}
+                  data-variant="secondary"
+                  className="hermes-button w-full justify-between"
+                >
+                  <span>Filter :{track.id === "Competitive Programming" ? "CP" : track.id}:</span>
+                  <ArrowUpRight className="size-3.5" />
+                  <span
+                    aria-hidden="true"
+                    className="hermes-button-hover-border"
+                  />
+                </button>
+              </div>
+            </article>
           )
         })}
       </div>

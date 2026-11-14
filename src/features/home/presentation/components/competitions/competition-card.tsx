@@ -1,9 +1,9 @@
-import { Badge } from "@/core/components/ui/badge"
 import { placementBadgeClass } from "./placement-badge"
 import type { CompetitionImage, CompetitionWin } from "../../../domain/competition"
 import { CompetitionGallery } from "./competition-gallery"
 
 interface CompetitionCardProps {
+  index: number
   win: CompetitionWin
   activeImageIndex: number
   onSelectImage: (index: number) => void
@@ -11,57 +11,68 @@ interface CompetitionCardProps {
 }
 
 export function CompetitionCard({
+  index,
   win,
   activeImageIndex,
   onSelectImage,
   onOpenImage,
 }: CompetitionCardProps) {
   return (
-    <article className="rounded-lg border bg-card p-5 sm:p-6">
-      <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-        <div className="flex flex-1 flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs tabular-nums text-muted-foreground">
-              {win.semester}
+    <article className="py-10 md:py-12 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-12 items-start">
+      <div className="flex flex-col gap-5 min-w-0">
+        {/* Hermes telemetry header row */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="hw-mono text-xs font-medium text-[var(--surface-panel-muted)]">
+            #{String(index).padStart(2, "0")} // {win.semester}
+          </span>
+
+          <span className="hw-mono text-[11px] px-2 py-0.5 border border-[var(--surface-panel-solid-line)] bg-[var(--surface-panel-well)] text-[var(--surface-panel-ink)]">
+            {win.track}
+          </span>
+
+          <span
+            className={`hw-mono text-[11px] px-2.5 py-0.5 border ${placementBadgeClass(
+              win.tier,
+            )}`}
+          >
+            {win.placement}
+          </span>
+
+          {win.winnings ? (
+            <span className="hw-mono text-[11px] px-2.5 py-0.5 border border-brand-green-border bg-brand-green-soft text-brand-green font-semibold tabular-nums">
+              GRANT // {win.winnings}
             </span>
-            <Badge variant="secondary">{win.track}</Badge>
-            <Badge variant="outline" className={placementBadgeClass(win.tier)}>
-              {win.placement}
-            </Badge>
-            {win.winnings ? (
-              <Badge
-                variant="outline"
-                className="border-brand-green-border bg-brand-green-soft text-brand-green tabular-nums"
-              >
-                {win.winnings}
-              </Badge>
-            ) : null}
-          </div>
+          ) : null}
+        </div>
 
-          <h3 className="text-lg sm:text-xl font-semibold tracking-[-0.02em] leading-snug text-foreground">
-            {win.competition}
-          </h3>
+        {/* Condensed Gothic Headline */}
+        <h3 className="hw-gothic text-[length:var(--hw-teams-feature-title)] font-medium leading-[1.03] text-[var(--surface-panel-ink)] m-0">
+          {win.competition}
+        </h3>
 
-          <p className="text-sm leading-relaxed text-muted-foreground max-w-[65ch]">
-            {win.description}
-          </p>
+        {/* Editorial dispatch summary */}
+        <p className="text-base leading-[1.62] text-[var(--surface-panel-muted)] max-w-[64ch] m-0">
+          {win.description}
+        </p>
 
-          <p className="text-xs leading-relaxed text-muted-foreground pt-1">
-            <span className="font-medium text-foreground">
-              Teams & Members:
-            </span>{" "}
+        {/* Roster / Teams well (Hermes .eQ4BDG_well) */}
+        <div className="border hw-dotted-rule bg-[var(--surface-panel-well)] p-4 flex flex-col gap-1">
+          <span className="hw-mono text-[10px] text-[var(--surface-panel-muted)]">
+            ROSTER &amp; TEAM PLACEMENTS
+          </span>
+          <p className="font-mono text-xs leading-relaxed text-[var(--surface-panel-ink)] m-0">
             {win.teams}
           </p>
         </div>
-
-        <CompetitionGallery
-          competition={win.competition}
-          images={win.images}
-          activeIndex={activeImageIndex}
-          onSelectImage={onSelectImage}
-          onOpenImage={onOpenImage}
-        />
       </div>
+
+      <CompetitionGallery
+        competition={win.competition}
+        images={win.images}
+        activeIndex={activeImageIndex}
+        onSelectImage={onSelectImage}
+        onOpenImage={onOpenImage}
+      />
     </article>
   )
 }

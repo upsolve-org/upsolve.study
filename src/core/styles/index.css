@@ -6,8 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
   --font-sans: 'Geist Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -32,43 +33,104 @@
   --color-brand-red: var(--brand-red);
   --color-brand-red-soft: var(--brand-red-soft);
   --color-brand-red-border: var(--brand-red-border);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
 }
 
 :root {
+  /* Typography tokens (Hermes Agent architecture) */
+  --font-rules-gothic-cnd: 'Barlow Condensed', 'Geist Variable', sans-serif;
+  --font-display: 'Barlow Condensed', 'Geist Variable', sans-serif;
+  --font-body: 'Geist Variable', system-ui, sans-serif;
+  --hpv2-font-meta: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* UPsolve x Hermes color palette — grounded on #202020 logo background */
+  --hermes-primary: #202020;
+  --hermes-stage: #171717;
+  --hermes-dark-well: #141414;
+  --hermes-stroke: #2f2f2f;
+  --hermes-white: #f2f2f2;
+  --hermes-paper: #f2f2ef;
+  --hermes-paper-ink: #181818;
+  --hermes-paper-muted: #525258;
+  --hermes-paper-line: rgba(24, 24, 24, 0.22);
+
+  /* Stage surface variables (adaptive to hybrid vs full-dark retune) */
+  --surface-panel-bg: #f2f2ef;
+  --surface-panel-ink: #181818;
+  --surface-panel-muted: #4a4a50;
+  --surface-panel-card: #ffffff;
+  --surface-panel-well: rgba(24, 24, 24, 0.04);
+  --surface-panel-line: rgba(24, 24, 24, 0.24);
+  --surface-panel-solid-line: rgba(24, 24, 24, 0.12);
+
+  /* Base semantic tokens */
   --background: #202020;
-  --foreground: #f4f4f5;
+  --foreground: #f2f2f2;
   --card: #262626;
-  --card-foreground: #f4f4f5;
-  --popover: #262626;
-  --popover-foreground: #f4f4f5;
-  --primary: #ffffff;
+  --card-foreground: #f2f2f2;
+  --popover: #202020;
+  --popover-foreground: #f2f2f2;
+  --primary: #f2f2f2;
   --primary-foreground: #202020;
-  --secondary: #2e2e2e;
-  --secondary-foreground: #e4e4e7;
-  --muted: #292929;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #f2f2f2;
+  --muted: #262626;
   --muted-foreground: #a1a1aa;
-  --accent: #2e2e2e;
-  --accent-foreground: #f4f4f5;
-  --destructive: #e04f44;
+  --accent: #2c2c2c;
+  --accent-foreground: #f2f2f2;
+  --destructive: #f26b61;
   --border: #333333;
   --input: #333333;
-  --ring: #2ea834;
-  --radius: 0.5rem;
+  --ring: #46c94c;
+  --radius: 0rem;
 
-  /* UPsolve logo palette */
-  --brand-green: #46c94c;
-  --brand-green-soft: rgba(21, 122, 26, 0.22);
-  --brand-green-border: rgba(70, 201, 76, 0.35);
-  --brand-red: #f26b61;
-  --brand-red-soft: rgba(166, 36, 24, 0.24);
-  --brand-red-border: rgba(242, 107, 97, 0.38);
+  /* UPsolve logo accents */
+  --brand-green: #157a1a;
+  --brand-green-bright: #46c94c;
+  --brand-green-soft: rgba(21, 122, 26, 0.14);
+  --brand-green-border: rgba(21, 122, 26, 0.4);
+  --brand-red: #a62418;
+  --brand-red-bright: #f26b61;
+  --brand-red-soft: rgba(166, 36, 24, 0.14);
+  --brand-red-border: rgba(166, 36, 24, 0.4);
 
-  /* Motion tokens (Emil Kowalski / animate skill) */
+  /* Hermes layout & fluid scale tokens */
+  --hw-frame: 5px;
+  --hw-teams-col: 1120px;
+  --hw-teams-pad-x: max(24px, min(6vw, 72px));
+  --hw-teams-hero-display: clamp(3.5rem, 8.4vw, 108px);
+  --hw-teams-display: clamp(2.75rem, 5.8vw, 76px);
+  --hw-teams-feature-title: clamp(1.85rem, 3.2vw, 42px);
+  --hw-teams-label: 12px;
+  --hw-teams-meta: 12px;
+  --hw-teams-btn-h: 38px;
+
+  /* Hermes shadows & curves */
+  --hpv2-shadow-lift: 0 6px 20px -4px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  --hpv2-shadow-press: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+  --nw-ease-arrival: cubic-bezier(0.16, 1, 0.3, 1);
+  --nw-ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Full dark retune mode (keeps #202020 / #1a1a1a across all panels) */
+html[data-marketing-theme="dark"] {
+  --surface-panel-bg: #1a1a1a;
+  --surface-panel-ink: #f2f2f2;
+  --surface-panel-muted: #a1a1aa;
+  --surface-panel-card: #222222;
+  --surface-panel-well: rgba(255, 255, 255, 0.04);
+  --surface-panel-line: rgba(242, 242, 242, 0.22);
+  --surface-panel-solid-line: rgba(242, 242, 242, 0.12);
+  --brand-green: #46c94c;
+  --brand-green-soft: rgba(70, 201, 76, 0.16);
+  --brand-green-border: rgba(70, 201, 76, 0.42);
+  --brand-red: #f26b61;
+  --brand-red-soft: rgba(242, 107, 97, 0.16);
+  --brand-red-border: rgba(242, 107, 97, 0.42);
 }
 
 @layer base {
@@ -77,42 +139,571 @@
   }
 
   html {
-    @apply font-sans antialiased scroll-smooth;
-    scrollbar-color: #3f3f46 transparent;
+    background: var(--hermes-stage);
+    overflow-x: clip;
+    scroll-behavior: smooth;
     scrollbar-width: thin;
+    scrollbar-color: rgba(242, 242, 242, 0.5) var(--hermes-stroke);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    @apply bg-background text-foreground selection:bg-brand-green selection:text-white;
+    background: var(--hermes-primary);
+    color: var(--hermes-white);
+    font-family: var(--font-body);
+  }
+
+  ::selection {
+    background: var(--brand-green-bright);
+    color: #141414;
   }
 }
 
-@keyframes upsolve-hero-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+/* ==========================================================================
+   Hermes 5px Fixed Viewport Frame + Ambient Arcs + Scroll/Click Cues
+   ========================================================================== */
+.hw-frame {
+  z-index: 100;
+  border: var(--hw-frame) solid var(--hermes-stroke);
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+}
+
+.hw-frame-ambient {
+  pointer-events: none;
+  contain: strict;
+  opacity: 0.55;
+  background: transparent;
+  animation: 42s ease-in-out infinite hw-frame-bloom;
+  position: absolute;
+  overflow: clip;
+}
+
+.hw-frame-ambient::before {
+  content: "";
+  background: linear-gradient(
+    160deg,
+    transparent 0%,
+    var(--hermes-white) 14%,
+    var(--brand-green-bright) 20%,
+    var(--hermes-primary) 26%,
+    transparent 35% 42%,
+    var(--hermes-white) 54%,
+    var(--brand-red-bright) 60%,
+    var(--hermes-primary) 66%,
+    transparent 75% 82%,
+    var(--brand-green-bright) 94%,
+    var(--hermes-stroke) 100%
+  );
+  width: 300%;
+  height: 300%;
+  animation: 14s linear infinite alternate hw-frame-arc;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hw-frame-ambient.top,
+.hw-frame-ambient.bottom {
+  left: calc(-1 * var(--hw-frame));
+  right: calc(-1 * var(--hw-frame));
+  height: var(--hw-frame);
+}
+.hw-frame-ambient.top {
+  top: calc(-1 * var(--hw-frame));
+}
+.hw-frame-ambient.bottom {
+  bottom: calc(-1 * var(--hw-frame));
+}
+.hw-frame-ambient.left,
+.hw-frame-ambient.right {
+  width: var(--hw-frame);
+  top: 0;
+  bottom: 0;
+}
+.hw-frame-ambient.left {
+  left: calc(-1 * var(--hw-frame));
+}
+.hw-frame-ambient.right {
+  right: calc(-1 * var(--hw-frame));
+}
+
+@keyframes hw-frame-arc {
+  0% {
+    transform: translate(-10%, -10%);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
   }
 }
 
-.hero-enter {
-  animation: upsolve-hero-in 260ms var(--ease-out) both;
+@keyframes hw-frame-bloom {
+  0%,
+  68%,
+  92%,
+  to {
+    opacity: 0.45;
+  }
+  80% {
+    opacity: 0.92;
+  }
+}
+
+.hw-frame-scroll,
+.hw-frame-click {
+  inset: calc(-1 * var(--hw-frame));
+  padding: var(--hw-frame);
+  pointer-events: none;
+  opacity: 0;
+  position: absolute;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-clip: content-box, border-box;
+  mask-clip: content-box, border-box;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.hw-frame-scroll {
+  background:
+    radial-gradient(
+      ellipse 120px 260px at 0% var(--scroll-y, 15%),
+      var(--brand-green-bright),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 120px 260px at 100% var(--scroll-y, 15%),
+      var(--brand-red-bright),
+      transparent
+    );
+  transition: opacity 0.6s ease-out;
+}
+
+.hw-frame-scroll.is-scrolling {
+  opacity: 0.7;
+  transition-duration: 0.14s;
+}
+
+.hw-frame-click {
+  background: radial-gradient(
+    ellipse 220px 220px at var(--cue-x, 50%) var(--cue-y, 0%),
+    var(--hermes-white),
+    transparent 100%
+  );
+  transition: opacity 0.45s ease-out;
+}
+
+.hw-frame-click.is-active {
+  opacity: 0.85;
+  transition-duration: 0.05s;
+}
+
+/* ==========================================================================
+   Hermes Typography & Subnav Trigger Underlines
+   ========================================================================== */
+.hw-mono {
+  font-family: var(--hpv2-font-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hw-gothic {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.nw-subnav-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 2px;
+  cursor: pointer;
+  transition: opacity 0.18s var(--nw-ease-decelerate);
+}
+
+.nw-subnav-trigger-label {
+  position: relative;
+}
+
+.nw-subnav-trigger-label::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.22s var(--nw-ease-arrival);
+}
+
+.nw-subnav-trigger:hover .nw-subnav-trigger-label::after,
+.nw-subnav-trigger:focus-visible .nw-subnav-trigger-label::after {
+  transform: scaleX(1);
+}
+
+/* ==========================================================================
+   Hermes Button & Sweeping Border Arc (.hermes-button)
+   ========================================================================== */
+@keyframes hermes-button-border {
+  0% {
+    transform: translate(-10%, -10%);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.hermes-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--hw-teams-btn-h);
+  padding: 8px 14px;
+  border-radius: 0;
+  border: 0;
+  font-family: var(--hpv2-font-meta);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 150ms ease-out,
+    box-shadow 150ms ease-out,
+    color 150ms ease-out,
+    transform 150ms ease-out;
+}
+
+.hermes-button:hover {
+  transition-duration: 0ms;
+}
+
+.hermes-button:active {
+  transform: scale(0.98);
+}
+
+.hermes-button[data-variant="secondary"] {
+  background: rgba(242, 242, 239, 0.92);
+  color: #181818;
+}
+
+.hermes-button[data-variant="secondary"]:hover {
+  background: #ffffff;
+  box-shadow: var(--hpv2-shadow-lift);
+}
+
+.hermes-button[data-variant="primary"] {
+  background: var(--hermes-primary);
+  color: var(--hermes-white);
+}
+
+.hermes-button[data-variant="primary"]:hover {
+  background: #111111;
+  box-shadow: var(--hpv2-shadow-lift);
+}
+
+.hermes-button[data-variant="green"] {
+  background: var(--brand-green);
+  color: #ffffff;
+}
+
+.hermes-button[data-variant="green"]:hover {
+  background: #1b9221;
+  box-shadow: var(--hpv2-shadow-lift);
+}
+
+.hermes-button[data-variant="hero-ghost"] {
+  background: rgba(242, 242, 242, 0.12);
+  color: var(--hermes-white);
+  box-shadow: inset 0 0 0 1px rgba(242, 242, 242, 0.2);
+}
+
+.hermes-button[data-variant="hero-ghost"]:hover {
+  background: rgba(242, 242, 242, 0.2);
+}
+
+.hermes-button[data-variant="outline"] {
+  background: transparent;
+  color: inherit;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.hermes-button-hover-border {
+  --arc-tail: color-mix(in srgb, currentColor 45%, transparent);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  padding: 1.25px;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-clip: content-box, border-box;
+  mask-clip: content-box, border-box;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.hermes-button-hover-border::before {
+  content: "";
+  background: linear-gradient(
+    160deg,
+    transparent 0% 15%,
+    currentColor 20%,
+    var(--arc-tail) 25%,
+    transparent 35% 55%,
+    #46c94c 60%,
+    var(--arc-tail) 65%,
+    transparent 75% 95%,
+    #f26b61 100%
+  );
+  width: 300%;
+  height: 300%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-10%, -10%);
+}
+
+.hermes-button:hover > .hermes-button-hover-border,
+.hermes-button:focus-visible > .hermes-button-hover-border {
+  opacity: 1;
+}
+
+.hermes-button:hover > .hermes-button-hover-border::before {
+  animation: hermes-button-border 1.6s linear infinite alternate;
+}
+
+/* Editorial disclosure button (underline sweep) */
+.hermes-disclosure {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  background: var(--surface-panel-well);
+  color: var(--surface-panel-ink);
+  font-family: var(--hpv2-font-meta);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 0;
+}
+
+.hermes-disclosure > span.disclosure-text {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  padding-bottom: 2px;
+  transition: background-size 0.22s var(--nw-ease-arrival);
+}
+
+.hermes-disclosure:hover > span.disclosure-text,
+.hermes-disclosure:focus-visible > span.disclosure-text {
+  background-size: 100% 1px;
+}
+
+/* ==========================================================================
+   Hermes Terminal Widget (.hw-install-terminal)
+   ========================================================================== */
+.hw-install-terminal {
+  width: 480px;
+  max-width: 100%;
+  padding-top: 8px;
+}
+
+.hw-install-terminal-label {
+  font-family: var(--hpv2-font-meta);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(242, 242, 242, 0.65);
+  margin: 0 0 12px;
+}
+
+.hw-install-terminal-body {
+  background: var(--hermes-dark-well);
+  border: 1px solid var(--hermes-stroke);
+  padding: 4px;
+  font-family: var(--hpv2-font-meta);
+  font-size: 12px;
+}
+
+.hw-install-terminal-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.hw-install-terminal-tab {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--hermes-white);
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 7px 10px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: background-color 120ms ease-out;
+}
+
+.hw-install-terminal-tab > span.colon {
+  opacity: 0.38;
+}
+
+.hw-install-terminal-tab[data-state="active"] {
+  background: var(--hermes-primary);
+  color: #46c94c;
+  text-decoration: none;
+}
+
+.hw-install-terminal-tab[data-state="active"] > span.colon {
+  opacity: 1;
+}
+
+.hw-install-terminal-panel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  color: rgba(242, 242, 242, 0.9);
+}
+
+.hw-install-terminal-panel > code {
+  white-space: nowrap;
+  min-width: 0;
+  font: inherit;
+  flex: 1;
+  overflow-x: auto;
+}
+
+/* ==========================================================================
+   Hermes Stage Panels, Dotted Rules, Chip Hover Links, Scanline Retune
+   ========================================================================== */
+.hw-stage-panel {
+  background: var(--surface-panel-bg);
+  color: var(--surface-panel-ink);
+  transition: background-color 220ms ease-out, color 220ms ease-out;
+}
+
+.hw-dotted-rule {
+  border-color: var(--surface-panel-line);
+  border-style: dotted;
+}
+
+.hw-chip-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  margin-left: -6px;
+  font-family: var(--hpv2-font-meta);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.hw-chip-link:hover,
+.hw-chip-link:focus-visible {
+  background-color: var(--hermes-white);
+  color: var(--hermes-primary);
+  transition-duration: 0ms;
+}
+
+.hw-stage-panel .hw-chip-link:hover,
+.hw-stage-panel .hw-chip-link:focus-visible {
+  background-color: var(--surface-panel-ink);
+  color: var(--surface-panel-bg);
+  transition-duration: 0ms;
+}
+
+/* Scanline retune sweep when toggling stage theme */
+@keyframes retune-sweep {
+  0% {
+    transform: translateY(-28px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.marketing-theme-signal {
+  position: fixed;
+  top: 0;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: 28px;
+  z-index: 999;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      transparent,
+      rgba(70, 201, 76, 0.15) 30%,
+      rgba(242, 242, 242, 0.75) 50%,
+      rgba(242, 107, 97, 0.45) 55%,
+      transparent 80%
+    ),
+    repeating-linear-gradient(
+      transparent 0 2px,
+      rgba(242, 242, 242, 0.2) 2px 3px
+    );
+  animation: retune-sweep 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Orbital / geometric rotation in Hero Art */
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hw-orbit-slow {
+  animation: orbit-spin 38s linear infinite;
+}
+
+.hw-orbit-reverse {
+  animation: orbit-spin-reverse 28s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-enter {
-    animation: upsolve-hero-fade 200ms var(--ease-out) both;
+  .hw-frame-ambient,
+  .hw-frame-ambient::before,
+  .hw-orbit-slow,
+  .hw-orbit-reverse,
+  .hermes-button:hover > .hermes-button-hover-border::before {
+    animation: none !important;
   }
-}
-
-@keyframes upsolve-hero-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+  .hw-frame-scroll,
+  .hw-frame-click,
+  .marketing-theme-signal {
+    display: none !important;
   }
 }
