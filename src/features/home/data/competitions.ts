@@ -31,7 +31,7 @@ export const COMPETITION_WINS: CompetitionWin[] = [
     description:
       "Three UPsolve teams swept podium finishes across the Smart Governance and Smart DRR & Climate Change Adaptation tracks at DOST Baguio-Benguet's Cordi Inspire competition.",
     teams:
-      "UPSolve (2nd, Smart DRR & CCA · ₱5,000), The New Bugs (2nd, Smart Governance · ₱5,000), Team Tanaw (3rd, Smart Governance · ₱3,000)",
+      "UPSolve (2nd, Smart DRR & CCA · ₱5,000), The New Bugs (2nd, Smart Governance · ₱5,000), Team Tanaw (3rd, Smart Governance · ₱3,000), Spaghetti Coders (Participant, Smart Governance)",
     images: [
       {
         src: "/competitions/dost-upsolve.jpg",
@@ -44,6 +44,10 @@ export const COMPETITION_WINS: CompetitionWin[] = [
       {
         src: "/competitions/dost-tanaw.jpg",
         label: "Team Tanaw · 3rd Place (Governance)",
+      },
+      { 
+        src: "/competitions/dost-spaghetti-coders.jpg",
+        label: "Team Spaghetti Coders · Participant  (Governance)",
       },
     ],
   },
